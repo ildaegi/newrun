@@ -3,32 +3,28 @@ import { DropzoneOptions, useDropzone, Accept } from "react-dropzone";
 interface FileDropProps extends Pick<DropzoneOptions, "onDrop"> {
   testFileUpload: () => void;
 }
-export function FileDrop({ onDrop, testFileUpload }: FileDropProps) {
-  const { getRootProps, getInputProps, isDragActive, fileRejections } =
-    useDropzone({
-      onDrop,
-      maxFiles: 1,
-      accept: ".gltf, .glb" as unknown as Accept,
-    });
+export function FileDrop({ onDrop }: FileDropProps) {
+  const { getRootProps, getInputProps, fileRejections } = useDropzone({
+    onDrop,
+    maxFiles: 1,
+    accept: ".gltf, .glb" as unknown as Accept,
+  });
 
   return (
     <div
-      style={{ display: "flex", height: "100%", flex: 1 }}
-      {...getRootProps()}
+      style={{
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
-      <input {...getInputProps()} />
+      <div style={{ cursor: "pointer" }} {...getRootProps()}>
+        <input {...getInputProps()} />
 
-      {isDragActive ? (
-        <p>어 올려</p>
-      ) : (
-        <p>
-          여기다가 파일 올리든가
-          <button onClick={testFileUpload}>테스트 해보던가</button>
-        </p>
-      )}
-      {fileRejections.length ? (
-        <p>아니 .gltf 이나 .glb 만 가능하다니깐요</p>
-      ) : null}
+        <p>모델링 파일 올리기</p>
+        {fileRejections.length ? <p>.gltf, .glb 파일만 가능합니다.</p> : null}
+      </div>
     </div>
   );
 }

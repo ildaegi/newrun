@@ -6,12 +6,12 @@ import { useBuffer } from "../src/src-client/hooks/useBuffer";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-  const { buffer, onDrop, testFileUpload } = useBuffer();
+  const { buffer, onDrop, fileUpload, testFileUpload } = useBuffer();
 
   return (
     <div style={{ height: "100%" }}>
       {buffer ? (
-        <ViewerContainer buffer={buffer} />
+        <ViewerContainer buffer={buffer} fileUpload={fileUpload} />
       ) : (
         <FileDrop onDrop={onDrop} testFileUpload={testFileUpload} />
       )}

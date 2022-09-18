@@ -9,7 +9,8 @@ type UploadableFilesMime =
   | "image/png"
   | "image/jpeg"
   | "model/gltf+json"
-  | "model/gltf-binary";
+  | "model/gltf-binary"
+  | "application/octet-stream";
 
 interface isFilesOptions {
   mime: UploadableFilesMime[];

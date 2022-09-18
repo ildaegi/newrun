@@ -23,7 +23,9 @@ import { IsFiles } from "../helpers/classValidator";
 
 export class ReqGltfFileUpload {
   @IsNotEmpty()
-  @IsFiles({ mime: ["model/gltf+json", "model/gltf-binary"] })
+  @IsFiles({
+    mime: ["model/gltf+json", "model/gltf-binary", "application/octet-stream"],
+  })
   files: File[];
 
   @IsNotEmpty()
