@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import { FileDrop } from "../src/src-server/components/dom/fileDrop";
-import { ViewerContainer } from "../src/src-server/components/dom/viewer";
-import { useBuffer } from "../src/src-server/hooks/useBuffer";
+import { FileDrop } from "../src/src-client/components/dom/fileDrop";
+import { ViewerContainer } from "../src/src-client/components/dom/viewer";
+import { useBuffer } from "../src/src-client/hooks/useBuffer";
 
 import styles from "../styles/Home.module.css";
 
