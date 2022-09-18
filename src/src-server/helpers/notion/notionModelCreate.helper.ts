@@ -68,9 +68,15 @@ const CreateFieldTypeObject = {
     type: "select" as const,
     select: { name: value },
   }),
-  files: (value: File[]) => ({
+  files: (value: string) => ({
     type: "files" as const,
-    files: value.map((file) => ({ name: file, type: "file" as const })),
+    files: [
+      {
+        type: "external" as const,
+        name: value.split("/").pop(),
+        external: { url: value },
+      },
+    ],
   }),
   multi_select: (value: string[]) => ({
     type: "multi_select" as const,
@@ -123,7 +129,7 @@ class Model<F extends string, FN extends Record<F | "_id", string | string[]>> {
     );
   }
 
-  private normalizingCreateField(filed: Record<F, string | string[] | File[]>) {
+  private normalizingCreateField(filed: Record<F, string | string[]>) {
     return Object.keys(filed).reduce((results, filedName) => {
       const value = filed[filedName as F];
       const filedType = this.field[filedName];
@@ -131,25 +137,24 @@ class Model<F extends string, FN extends Record<F | "_id", string | string[]>> {
       return {
         ...results,
         [filedName]: CreateFieldTypeObject[filedType](
-          value as string & string[] & File[]
+          value as string & string[]
         ),
       };
     }, {});
   }
 
-  public async create(filed: Record<F, string | string[] | File[]>) {
-    console.log("[server] : notion class - create", {
-      properties: JSON.stringify(this.normalizingCreateField(filed)),
-    });
+  public async create(filed: Record<F, string | string[]>) {
+    try {
+      const res = await notionClient.pages.create({
+        parent: { database_id: this.databaseId },
+        properties: this.normalizingCreateField(filed),
+      });
 
-    const res = await notionClient.databases.create({
-      parent: { page_id: this.databaseId },
-      properties: this.normalizingCreateField(filed),
-    });
-
-    console.log("[server] : notion class - create - res", res);
-
-    return {};
+      return this.normalizingPageRes(res);
+    } catch (error) {
+      console.log({ error });
+      return null;
+    }
   }
 
   public async get() {

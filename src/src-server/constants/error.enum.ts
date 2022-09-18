@@ -17,6 +17,10 @@ export const ErrorCodes = {
     message: "파라미터를 처리하던 중 오류가 발생했습니다.",
     status: StatusCodes.INTERNAL_SERVER_ERROR,
   },
+  FILE_UPLOAD_ERROR: {
+    message: "파일을 업로드 하던 중 오류가 발생했습니다.",
+    status: StatusCodes.INTERNAL_SERVER_ERROR,
+  },
   INVALID_INPUT: {
     message: "전달된 파라미터 중 잘못된 항목이있습니다.",
     status: StatusCodes.BAD_REQUEST,

@@ -5,18 +5,26 @@ interface GithubFileUploadProps {
   name: string;
 }
 export function githubFileUpload({ name, path }: GithubFileUploadProps) {
-  const file = fs.readFileSync(path).toString();
-  const content = Buffer.from(file, "utf8").toString("base64");
+  const isGlb = path.split(".").pop() === "glb";
 
-  const url = `https://api.github.com/repos/ildaegi/newrun-upload/src/src-client/assets/model/${name}`;
+  const file = isGlb
+    ? fs.readFileSync(path, "binary")
+    : fs.readFileSync(path, "utf-8");
+  const base64 = isGlb
+    ? Buffer.from(file, "binary").toString("base64")
+    : Buffer.from(file, "utf8").toString("base64");
+  const content = base64;
+
+  const url = `https://api.github.com/repos/ildaegi/newrun-upload/contents/src/src-client/assets/model/${name}`;
 
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${process.env.GITHUB_API_KEY}`);
   headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-  const body = new URLSearchParams();
-  body.append("message", "ADD: upload file for github api");
-  body.append("content", `${content}`);
+  const body = JSON.stringify({
+    message: "ADD: Upload file for github api",
+    content: `${content}`,
+  });
 
   return fetch(url, { method: "PUT", headers, body });
 }
