@@ -30,7 +30,7 @@ export const WithFormDataParser = createMiddlewareDecorator(
       );
 
       const body = { ..._fields, ...files };
-      console.log({ body });
+
       req.body = body;
 
       next();
