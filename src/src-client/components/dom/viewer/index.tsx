@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useScene } from "../../../hooks/useScene";
 import { Loading } from "../loading";
 

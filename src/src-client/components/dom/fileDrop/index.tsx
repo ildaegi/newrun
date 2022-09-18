@@ -1,8 +1,6 @@
 import { DropzoneOptions, useDropzone, Accept } from "react-dropzone";
 
-interface FileDropProps extends Pick<DropzoneOptions, "onDrop"> {
-  testFileUpload: () => void;
-}
+interface FileDropProps extends Pick<DropzoneOptions, "onDrop"> {}
 export function FileDrop({ onDrop }: FileDropProps) {
   const { getRootProps, getInputProps, fileRejections } = useDropzone({
     onDrop,
