@@ -11,8 +11,13 @@ const Viewer = dynamic(() => import("../../canvas/viewer"), {
 interface ViewerContainerProps {
   buffer: string | ArrayBuffer;
   fileUpload: () => Promise<Response>;
+  reset: () => void;
 }
-export function ViewerContainer({ buffer, fileUpload }: ViewerContainerProps) {
+export function ViewerContainer({
+  buffer,
+  fileUpload,
+  reset,
+}: ViewerContainerProps) {
   const { scene } = useScene({ buffer });
   const isLoading = scene === undefined;
 
@@ -27,10 +32,11 @@ export function ViewerContainer({ buffer, fileUpload }: ViewerContainerProps) {
         alignItems: "center",
       }}
     >
-      {isLoading ? <Loading /> : <Viewer scene={scene} />}
       <div
         onClick={async () => {
-          if (uploaded === null) {
+          if (uploaded) {
+            reset();
+          } else if (uploaded === null) {
             try {
               setUploaded(undefined);
               const res = await fileUpload();
@@ -41,7 +47,8 @@ export function ViewerContainer({ buffer, fileUpload }: ViewerContainerProps) {
           }
         }}
         style={{
-          cursor: uploaded === null ? "pointer" : "auto",
+          zIndex: 100,
+          cursor: uploaded === true && uploaded === null ? "pointer" : "auto",
           color: "#333",
           position: "absolute",
           bottom: "30px",
@@ -59,8 +66,9 @@ export function ViewerContainer({ buffer, fileUpload }: ViewerContainerProps) {
           ? "업로드"
           : uploaded === undefined
           ? "업로드중..."
-          : "업로드 성공.."}
+          : "완료"}
       </div>
+      {isLoading ? <Loading /> : <Viewer scene={scene} />}
     </div>
   );
 }

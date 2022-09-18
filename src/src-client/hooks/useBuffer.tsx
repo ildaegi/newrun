@@ -26,7 +26,11 @@ export function useBuffer() {
     });
   };
 
-  const testFileUpload = () => {};
+  const reset = () => {
+    setFile(null);
+    setFileName(null);
+    setBuffer(null);
+  };
 
   const fileUpload = useCallback(() => {
     if (!file || !fileName) return;
@@ -38,5 +42,5 @@ export function useBuffer() {
     return fetch("api/v1/gltf/upload", { method: "post", body: formData });
   }, [file, fileName]);
 
-  return { buffer, onDrop, fileUpload, testFileUpload };
+  return { buffer, onDrop, fileUpload, reset };
 }
