@@ -8,7 +8,11 @@ import {
 import * as M from "../../../../src/src-server/models";
 import { ReqGltfFileUpload } from "../../../../src/src-server/dtos";
 import { WithFormDataParser } from "../../../../src/src-server/middlewares";
-import { githubFileUpload } from "../../../../src/src-server/services";
+import {
+  githubFileUpload,
+  GIT_REPO_URL,
+  UPLOAD_DIR,
+} from "../../../../src/src-server/services";
 import { HttpException } from "../../../../src/src-server/exceptions";
 
 export const config = { api: { bodyParser: false } };
@@ -26,7 +30,8 @@ class GltfHandler {
         name,
         path: file.path,
       });
-      const downloadUrl = `https://raw.githubusercontent.com/ildaegi/newrun-upload/main/src/src-client/assets/model/${name}`;
+
+      const downloadUrl = `https://raw.githubusercontent.com/${GIT_REPO_URL}/main/${UPLOAD_DIR}${name}`;
       const notionUploadFile = await M.gltf.create({
         name,
         file: downloadUrl,

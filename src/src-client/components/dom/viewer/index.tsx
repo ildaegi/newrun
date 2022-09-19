@@ -68,6 +68,27 @@ export function ViewerContainer({
           ? "업로드중..."
           : "완료"}
       </div>
+      <div
+        onClick={async () => reset()}
+        style={{
+          zIndex: 100,
+          cursor: "pointer",
+          color: "#333",
+          position: "absolute",
+          bottom: "100px",
+          right: "30px",
+          backgroundColor: "#c4c4c4",
+          border: "1px #eaeaea solid",
+          padding: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: "25px",
+        }}
+      >
+        처음으로
+      </div>
+
       {isLoading ? <Loading /> : <Viewer scene={scene} />}
     </div>
   );
