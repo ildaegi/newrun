@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  distDir: "out",
   reactStrictMode: true,
   swcMinify: true,
   // 주의: 이 실험적 기능은 SSG 모드에서 NextJS Image 기능을 쓰기 위해 필요합니다.
